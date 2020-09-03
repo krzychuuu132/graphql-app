@@ -1,27 +1,20 @@
-const Event = require('../../models/event');
-const User = require('../../models/user');
 const bcrypt = require('bcryptjs');  
 
-const { user,events } = require('../utililties/functions')
+const { user,events,singleEvent,getEventsData,dateToString,getBookingData } = require('../utililties/functions');
 
+const Event = require('../../models/event');
+const User = require('../../models/user');
+const Booking = require('../../models/booking');
 
 const resolvers = {
-   events:async ()=>{
+        events:async ()=>{
           
        
              try{
                     const events = await Event.find();
 
-                    return events.map(event =>{
-                   
-                    return {
-                    ...event._doc,
-                    date: new Date(event._doc.date).toISOString(),
-                    _id: event.id,
-                    creator: user.bind(this,event.creator)
-                }
+                    return events.map(event =>getEventsData(event));
 
-                });
              }   catch(err){
                  throw err;
              }
@@ -38,18 +31,15 @@ const resolvers = {
                     title: arg.title,
                     description: arg.description,
                     price: arg.price,
-                    date: new Date(arg.date),
+                    date: dateToString(arg.date),
                     creator: '5f46e4fc690ad61c089aa66d'
                 });
                 let createdEvent;
 
                 const result = await event.save();
                
-                    createdEvent = {
-                        ...result._doc,
-                        date: new Date(result._doc.date).toISOString(),
-                        creator:user.bind(this,result.creator)
-                    };
+                    createdEvent = getEventsData(result);
+                 
                      const user = await  User.findById('5f46e4fc690ad61c089aa66d');
                     
                         if(!user) {
@@ -109,7 +99,69 @@ const resolvers = {
            
 
             
+        },
+
+        bookings: async ()=>{
+            
+            try{
+            const bookings = await  Booking.find();
+            return bookings.map(booking=>getBookingData(booking))
+
+
+            } catch(err){
+                throw err;
+            }
+        },
+
+        bookEvent: async (args)=>{
+
+            const {  eventId } = args;
+
+            try{
+              
+                const fetchedEvent = await Event.findById({_id: eventId });
+            
+                
+                const booking = new Booking({
+                    user: '5f46e4fc690ad61c089aa66d',
+                    event: fetchedEvent
+                });
+    
+                const result = await booking.save();
+           
+    
+                return getBookingData(result);
+                
+            }
+
+            catch(err){
+                throw err;
+            }
+           
+           
+        },
+
+        cancelBooking: async (args) =>{
+            const { bookingsID } = args;
+            console.log(bookingsID)
+
+            try{
+            const booking = await Booking.findById(bookingsID).populate('event');
+       
+
+            const event = getEventsData(booking.event)
+
+             await Booking.deleteOne({_id: bookingsID});
+
+          
+            return event
+                
+            
+            } catch(err){
+                throw err;
+            }
         }
+
     }
 
     module.exports = resolvers;
