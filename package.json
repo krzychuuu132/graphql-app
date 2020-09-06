@@ -16,5 +16,8 @@
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",
     "mongoose": "^5.10.0"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
   }
 }

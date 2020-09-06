@@ -2,22 +2,24 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlHTTP } = require('express-graphql');
 const mongoose = require('mongoose');
+const is_auth  = require('./middleware/is-auth');
 
 
 require('dotenv').config();
 
 
 const schema = require('./graphql/schema/schema.graphql');
-const resolvers = require('./graphql/resolvers/resolvers');
+const rootResolvers = require('./graphql/resolvers/resolvers');
 
 const app = express();
 
 app.use(bodyParser.json());
 
+app.use(is_auth);
 
 app.use('/graphql',graphqlHTTP({
     schema,
-    rootValue:resolvers,
+    rootValue:rootResolvers,
     graphiql: true
 }))
 
