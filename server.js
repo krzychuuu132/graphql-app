@@ -39,11 +39,8 @@ mongoose.connect(process.env.DB_CONNECTION ,{ useNewUrlParser: true },()=>{
     console.log("connected to DB!")
 })
 
-.then(()=>{
+
 app.listen(process.env.PORT||3000,()=>console.log('Server has been run!'));
-})
-.catch(err=>{
-    console.log(err)
-})
+
 
 
