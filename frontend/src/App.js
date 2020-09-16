@@ -48,11 +48,11 @@ const App = () => {
 
             <Switch>
 
-                    {!loginData.token && <Redirect from="/" to="/login" exact/>}
+                    {/*!loginData.token && <Redirect from="/" to="/login" exact/>}
                     {!loginData.token && <Redirect from="/events" to="/login" exact/>}
                     {!loginData.token && <Redirect from="/bookings" to="/login" exact/>}
                     {loginData.token && <Redirect from="/" to="/events" exact/>}
-                    {loginData.token && <Redirect from="/login" to="/events" exact/>}
+                    {loginData.token && <Redirect from="/login" to="/events" exact/>*/}
                     <Route path="/login" component={Login} />
                     <Route path="/Register" component={Register} />
                     <Route path="/events" component={Events} />
