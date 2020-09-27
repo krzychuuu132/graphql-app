@@ -1,8 +1,10 @@
 
 
-export const fetchAuth = (login,email,password) =>{
+export const fetchAuth = (login,password,email) =>{
 
     let requestBody;
+
+    console.log(email,password)
 
     if(login){
 
@@ -39,7 +41,7 @@ export const fetchAuth = (login,email,password) =>{
     
     const jsonData  = JSON.stringify(requestBody);
 
- return fetch('https://graphql-express-app123.herokuapp.com/graphql',{
+ return fetch('http://localhost:3000/graphql',{
     method:'POST',
     headers:{
         'Content-Type':'application/json'
@@ -50,7 +52,7 @@ export const fetchAuth = (login,email,password) =>{
     if(res.status !== 200 && res.status !== 201 && res.status !== 500){
         throw new Error('Failed!')
     }
-
+    console.log(jsonData)
     return res.json();
 })
 .then(result=>result)

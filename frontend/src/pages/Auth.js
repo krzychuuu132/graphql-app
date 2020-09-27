@@ -3,6 +3,7 @@ import axios from 'axios';
 import { fetchAuth } from '../utilities/fetchAuth';
 import AuthContext from '../context/auth_context';
 
+
 const Auth = ({login}) => {
 
     const emailRef = useRef(null);
@@ -18,15 +19,18 @@ const Auth = ({login}) => {
         
        
      const { data } =  await fetchAuth(login,password,email);
-     console.log(data)
+     if(login){
      if(data !== null && data.login.token){
          const { token,userId,tokenDuration } = data.login;
 
          dataContext.login(token,userId,tokenDuration);
          
     }
-  
 
+
+}
+
+console.log(data)
     }
 
 

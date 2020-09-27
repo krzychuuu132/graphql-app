@@ -17,10 +17,11 @@ const events = async event_id =>{
     
     
 const user = async user_id =>{
+    
 
         try{
             const user = await User.findById(user_id);
-
+           
             return {...user._doc,_id: user.id,createdEvents:events.bind(this,user._doc.createdEvents)};
 
         } catch(err){
@@ -41,11 +42,13 @@ const singleEvent = async event_id =>{
 }
 
 const getEventsData  = (event) =>{
+   
     
     return{
     ...event._doc,
-    date: dateToString(event._doc.date).toISOString(),
     _id: event.id,
+    date: dateToString(event._doc.date).toISOString(),
+    
     creator: user.bind(this,event.creator)
 }
 

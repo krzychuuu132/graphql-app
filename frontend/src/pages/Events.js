@@ -3,9 +3,16 @@ import  gsap  from 'gsap';
 import { useForm } from "react-hook-form";
 import AuthContext from "../context/auth_context";
 
+import Event from '../components/Event/Event';
+
 import './Events.scss';
+import Preloader from '../components/Preloader/Preloader';
+
 
 const Events = () => {
+
+    const [events,setEvents]  = useState([]);
+    const [loading,setLoading]  = useState(false);
 
     const Auth_Context = useContext(AuthContext);
 
@@ -16,12 +23,75 @@ const Events = () => {
 
     const tl = gsap.timeline();
 
+    useEffect(()=>{
+        gsap.set(createEventWrapperRef.current,{backgroundColor:'transparent',pointerEvents:'none'});
+        gsap.set(createEventRef.current,{alpha:0,pointerEvents:'none',scale:.5});
+    },[])
+
     useEffect( () => {
 
-    gsap.set(createEventWrapperRef.current,{backgroundColor:'transparent',pointerEvents:'none'});
-    gsap.set(createEventRef.current,{alpha:0,pointerEvents:'none',scale:.5});
+   const fetchEvents  = async () =>{
 
-} ,[])
+    const requestBody = {
+
+        query: `
+        query{
+            events{
+               _id
+              title
+              description
+              price
+              date
+              creator{
+                _id
+                email
+                createdEvents{
+                  _id
+                  title
+                }
+              
+              }
+            }
+            }
+        `
+    
+        
+    }
+
+    const jsonData  = JSON.stringify(requestBody);
+
+   try{
+
+    setLoading(true);
+    const response = await  fetch('http://localhost:3000/graphql',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            
+        },
+        body:jsonData
+     })
+
+     const { data } = await response.json();
+    
+     setEvents(data.events);
+     setLoading(false);
+
+   } catch(err){
+    throw Error(err)
+   }
+    
+    
+
+     
+
+   }
+
+   fetchEvents();
+
+   
+
+},[])
   
 
     const handleOpenCreateEvent = () => {
@@ -42,66 +112,70 @@ const onSubmit = () =>{
 
 const { title, price ,date, text }= getValues();
 
-const requestBody = {
 
-    query: `
-    mutation{
-        createEvent(eventInput:{
-          title:"${title}"
-          description:"${text}"
-          price:${price}
-          date:"${date}"
-          
-        }){
-            _id
-            title
-            description
-            price
-            date
-            creator{
+const createEvent = async () => {
+
+    const requestBody = {
+
+        query: `
+        mutation{
+            createEvent(eventInput:{
+              title:"${title}"
+              description:"${text}"
+              price:${price}
+              date:"${date}"
+              
+            }){
                 _id
-                email
+                title
+                description
+                price
+                date
+                creator{
+                    _id
+                    email
+                }
             }
-        }
-      }
-    `
-
+          }
+        `
     
+        
+    }
+    
+    
+    const token = Auth_Context.token;
+    
+    const jsonData  = JSON.stringify(requestBody);
+
+try{
+
+    const response = await fetch('http://localhost:3000/graphql',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':`Bearer ${token}`
+        },
+        body:jsonData
+     });
+    
+    const data = response.json();
+    console.log(data)
+
+} catch (err){
+    throw Error(err);
+}
+}
+createEvent();
+
+
+
 }
 
-
-const token = Auth_Context.token;
-
-const jsonData  = JSON.stringify(requestBody);
-
- fetch('https://graphql-express-app123.herokuapp.com/graphql',{
-   method:'POST',
-   headers:{
-       'Content-Type':'application/json',
-       'Authorization':`Bearer ${token}`
-   },
-   body:jsonData
-})
-.then(res=>{
-   if(res.status !== 200 && res.status !== 201 && res.status !== 500){
-       throw new Error('Failed!')
-   }
-   
-   return res.json();
-})
-.then(result=>console.log(result))
-.catch(err=>{
-   throw err;
-})
-
-
-
-}
 
     return ( 
-        
+        <>
         <div className="create-event">
-
+              
                 <h1 style={{textAlign:'center'}} className="create-event__title">Stwórz swój własny Event i pokaż go wszystkim !</h1>
 
                 <button style={{display:'block',margin:'0 auto'}} className="create-event__btn" onClick={handleOpenCreateEvent}>Stwórz Event</button>
@@ -139,8 +213,18 @@ const jsonData  = JSON.stringify(requestBody);
                             </div>
                         </div> 
                 </div>
-        
+                <Preloader active={loading}/>
         </div>
+
+        <div className="events">
+
+            {
+               events !== [] ? events.map(event=><Event event={event} key={event._id} userId={Auth_Context.userId}/>) : 'Niestety nie posiadasz żadnych eventów'
+            }
+
+        </div>
+      
+        </>
      );
      
 }

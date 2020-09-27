@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 import { BrowserRouter as Router,Route,Switch, Redirect } from 'react-router-dom';
 
-import Auth from './pages/Auth';
+
 import Events from './pages/Events';
 import Bookings from './pages/Bookings';
 

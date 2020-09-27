@@ -1,3 +1,4 @@
+const event = require('../../models/event');
 const Event = require('../../models/event');
 const User = require('../../models/user');
 const { getEventsData,dateToString } = require('../utililties/functions');
@@ -9,13 +10,10 @@ const { getEventsData,dateToString } = require('../utililties/functions');
 const eventsResolver = {
     events:async (args,req)=>{
       
-        if(!req.isAuth){
-            throw new Error('Unauthenthicated')
-        }
-   
-         try{
+       try{
                 const events = await Event.find();
-
+               
+              
                 return events.map(event =>getEventsData(event));
 
          }   catch(err){
@@ -33,6 +31,7 @@ const eventsResolver = {
         if(!req.isAuth){
             throw new Error('Unauthenthicated')
         }
+       
 
          try{
             const event = new Event({
