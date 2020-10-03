@@ -1,6 +1,6 @@
 const { getEventsData,getBookingData } = require('../utililties/functions');
 const Booking = require('../../models/booking');
-
+const Event = require('../../models/event');
 
 const bookingResolver = {
 

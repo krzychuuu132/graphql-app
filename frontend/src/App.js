@@ -12,6 +12,7 @@ import Error from './components/Error/Error';
 
 // Context
 import AuthContext from './context/auth_context';
+import PreloaderContext from './context/preloader_context';
 
 import './components/Main/Main.scss';
 
@@ -23,6 +24,8 @@ const App = () => {
     userId : null
   });
 
+  const [loading,setLoading]  = useState(false);
+
  const login = (token,userId,tokenDuration) =>{
     setLoginData({token,userId})
   }
@@ -31,11 +34,16 @@ const App = () => {
     setLoginData({token:null,userId:null})
   }
 
+  const toogleLoading = (active) =>{
+    setLoading(active);
+  }
+
   return (
 
     <Router>
 
-        <>
+     
+
         <AuthContext.Provider value={{
           token : loginData.token,
           userId :loginData.userId,
@@ -46,27 +54,34 @@ const App = () => {
 
             <main className="main">
 
-            <Switch>
+              <PreloaderContext.Provider value={{
+                loading,
+                toogleLoading
+              }}>
 
-                    {/*!loginData.token && <Redirect from="/" to="/login" exact/>}
-                    {!loginData.token && <Redirect from="/events" to="/login" exact/>}
-                    {!loginData.token && <Redirect from="/bookings" to="/login" exact/>}
-                    {loginData.token && <Redirect from="/" to="/events" exact/>}
-                    {loginData.token && <Redirect from="/login" to="/events" exact/>*/}
-                    <Route path="/login" component={Login} />
-                    <Route path="/Register" component={Register} />
-                    <Route path="/events" component={Events} />
-                    <Route path="/bookings" component={Bookings} />
-                    <Route >
+                  <Switch>
+
+                      {/*!loginData.token && <Redirect from="/" to="/login" exact/>}
+                      {!loginData.token && <Redirect from="/events" to="/login" exact/>}
+                      {!loginData.token && <Redirect from="/bookings" to="/login" exact/>}
+                      {loginData.token && <Redirect from="/" to="/events" exact/>}
+                      {loginData.token && <Redirect from="/login" to="/events" exact/>*/}
+                      <Route path="/login" component={Login} />
+                      <Route path="/Register" component={Register} />
+                      <Route path="/events" component={Events} />
+                      <Route path="/bookings" component={Bookings} />
+                      <Route >
                           <Error />  
-                    </Route>
+                      </Route>
 
-            </Switch>
+                  </Switch>
 
+              </PreloaderContext.Provider>
+            
             </main>
 
             </AuthContext.Provider>
-        </>
+    
 
     </Router>
 

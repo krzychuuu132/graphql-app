@@ -1,8 +1,11 @@
 import React,{ useRef, useState,useContext } from 'react';
 import axios from 'axios';
 import { fetchAuth } from '../utilities/fetchAuth';
-import AuthContext from '../context/auth_context';
 
+import AuthContext from '../context/auth_context';
+import PreloaderContext from '../context/preloader_context';
+
+import Preloader from '../components/Preloader/Preloader';
 
 const Auth = ({login}) => {
 
@@ -10,9 +13,12 @@ const Auth = ({login}) => {
     const passwordRef = useRef(null);
 
     const dataContext = useContext(AuthContext);
+    const Preloader_Context = useContext(PreloaderContext);
 
     const handleSubmit  =  async e  =>{
+
         e.preventDefault();
+        Preloader_Context.toogleLoading(true);
 
         const password  = passwordRef.current.value;
         const email  = emailRef.current.value;
@@ -20,17 +26,19 @@ const Auth = ({login}) => {
        
      const { data } =  await fetchAuth(login,password,email);
      if(login){
+
      if(data !== null && data.login.token){
          const { token,userId,tokenDuration } = data.login;
 
          dataContext.login(token,userId,tokenDuration);
-         
+        
     }
+    Preloader_Context.toogleLoading(false);
 
 
 }
 
-console.log(data)
+
     }
 
 
@@ -58,6 +66,7 @@ console.log(data)
                                 <button className="form__btn-login" type="submit">{login?'zaloguj się':'zarejersruj się'}</button>
 
                     </div>
+                    <Preloader />
         </form>
 
      );

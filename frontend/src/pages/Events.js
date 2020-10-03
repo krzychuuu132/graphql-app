@@ -1,7 +1,9 @@
 import React,{ useRef , useState,useEffect,useContext } from 'react';
 import  gsap  from 'gsap';
 import { useForm } from "react-hook-form";
+
 import AuthContext from "../context/auth_context";
+import PreloaderContext from "../context/preloader_context";
 
 import Event from '../components/Event/Event';
 
@@ -12,9 +14,10 @@ import Preloader from '../components/Preloader/Preloader';
 const Events = () => {
 
     const [events,setEvents]  = useState([]);
-    const [loading,setLoading]  = useState(false);
+   
 
     const Auth_Context = useContext(AuthContext);
+    const Preloader_Context = useContext(PreloaderContext);
 
     const { register, handleSubmit,getValues } = useForm();
 
@@ -62,7 +65,7 @@ const Events = () => {
 
    try{
 
-    setLoading(true);
+    Preloader_Context.toogleLoading(true);
     const response = await  fetch('http://localhost:3000/graphql',{
         method:'POST',
         headers:{
@@ -75,7 +78,7 @@ const Events = () => {
      const { data } = await response.json();
     
      setEvents(data.events);
-     setLoading(false);
+     Preloader_Context.toogleLoading(false);
 
    } catch(err){
     throw Error(err)
@@ -159,7 +162,7 @@ try{
      });
     
     const data = response.json();
-    console.log(data)
+    
 
 } catch (err){
     throw Error(err);
@@ -213,13 +216,14 @@ createEvent();
                             </div>
                         </div> 
                 </div>
-                <Preloader active={loading}/>
+                
+                <Preloader />
         </div>
 
         <div className="events">
 
             {
-               events !== [] ? events.map(event=><Event event={event} key={event._id} userId={Auth_Context.userId}/>) : 'Niestety nie posiadasz żadnych eventów'
+               events !== [] ? events.map(event=><Event event={event} key={event._id} userId={Auth_Context.userId} token={Auth_Context.token}/>) : 'Niestety nie posiadasz żadnych eventów'
             }
 
         </div>

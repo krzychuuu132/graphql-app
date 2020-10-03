@@ -1,10 +1,11 @@
 
 
 export const fetchAuth = (login,password,email) =>{
+  
 
     let requestBody;
 
-    console.log(email,password)
+ 
 
     if(login){
 
@@ -41,7 +42,7 @@ export const fetchAuth = (login,password,email) =>{
     
     const jsonData  = JSON.stringify(requestBody);
 
- return fetch('http://localhost:3000/graphql',{
+return fetch('http://localhost:3000/graphql',{
     method:'POST',
     headers:{
         'Content-Type':'application/json'
