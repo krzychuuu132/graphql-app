@@ -8,6 +8,7 @@ import PreloaderContext from "../context/preloader_context";
 
 import { getBookings } from "../utilities/eventOperations";
 
+import "./Bookings.scss";
 
 const Bookings = () => {
 
@@ -44,7 +45,7 @@ const Bookings = () => {
 
         <div className="bookings">
             {
-                bookings.map(booking=><Booking booking={booking} id={booking._id}/>)
+                bookings.map(booking=><Booking booking={booking} id={booking._id} token={Auth_Context.token} Preloader_Context={Preloader_Context}/>)
             }
 
             <Preloader />

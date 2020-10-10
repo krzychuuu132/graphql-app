@@ -1,6 +1,6 @@
-import React,{ useRef } from 'react';
+import React from 'react';
 import Auth from './Auth';
 
-const Login = () => <Auth  login={true} />
+const Login = () => <div className="wrapper"><Auth  login={true} /></div>
 
  export default Login;

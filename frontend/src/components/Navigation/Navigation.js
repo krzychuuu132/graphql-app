@@ -2,6 +2,7 @@ import React,{ useState,useRef,useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import AuthContext from '../../context/auth_context';
+import { ReactComponent as BookingLogo} from "../../images/booking.svg";
 
 import './Navigation.scss';
 
@@ -19,7 +20,7 @@ const Navigation = () => {
 
         <header className="header">
 
-            <div className="header__logo"><h2>Logo</h2></div>
+            <div className="header__logo"><BookingLogo/></div>
 
             <nav className="nav">
 

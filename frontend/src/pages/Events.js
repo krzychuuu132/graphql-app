@@ -10,6 +10,10 @@ import Event from '../components/Event/Event';
 import './Events.scss';
 import Preloader from '../components/Preloader/Preloader';
 
+import AddEventIcon from '@material-ui/icons/AddBox';
+
+import { Button,TextField,TextareaAutosize } from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
 
 const Events = () => {
 
@@ -179,9 +183,9 @@ createEvent();
         <>
         <div className="create-event">
               
-                <h1 style={{textAlign:'center'}} className="create-event__title">Stwórz swój własny Event i pokaż go wszystkim !</h1>
+                <h1 className="create-event__title">Stwórz swój własny Event i pokaż go wszystkim !</h1>
 
-                <button style={{display:'block',margin:'0 auto'}} className="create-event__btn" onClick={handleOpenCreateEvent}>Stwórz Event</button>
+                <Button  className="create-event__btn" onClick={handleOpenCreateEvent} variant="contained" color="primary" fullWidth >Stwórz Event   <AddEventIcon className="create-event__btn-icon">add_circle</AddEventIcon></Button>
 
                 <div className="create-event__background" ref={createEventWrapperRef}>
 
@@ -191,28 +195,38 @@ createEvent();
 
                             <form className="event-form" onSubmit={handleSubmit(onSubmit)} id="form">
                                 <div className="event-form__element">
-                                    <label htmlFor="title">Title</label>
-                                    <input type="text" alt="event-title" id="title" name="title" ref={register}/>
+                                    <label htmlFor="title" className="event-form__element-label">Title</label>
+                                    <TextField type="text" alt="event-title" id="title" name="title" ref={register}/>
                                 </div>
                                 <div className="event-form__element">
-                                    <label htmlFor="price">Price</label>
-                                    <input type="number" alt="event-price" id="price" name="price" ref={register}/>
+                                    <label htmlFor="price" className="event-form__element-label">Price</label>
+                                    <TextField type="number" alt="event-price" id="price" name="price" ref={register}/>
                                 </div>
                                 <div className="event-form__element">
-                                    <label htmlFor="date">Date</label>
-                                    <input type="date" alt="event-date" id="date" ref={register} name="date"/>
+                                    <label htmlFor="date" className="event-form__element-label">Date</label>
+                                    <TextField type="date" alt="event-date" id="date" ref={register} name="date"/>
                                 </div>
                                 <div className="event-form__element">
-                                    <label htmlFor="description">Description</label>
-                                    <textarea type="text" alt="event-decription" id="description" rows="4" ref={register} name="text"></textarea>
+                                    <label htmlFor="description" className="event-form__element-label">Description</label>
+                                    <TextareaAutosize  type="text" alt="event-decription" id="description" rows="4" ref={register} name="text"></TextareaAutosize >
                                 </div>
                             </form>
                            
                            
 
                             <div className="create-event__background-btns">
-                                <button className="create-event__background-close" onClick={handleCloseCreateEvent}>wyjdź</button>
-                                <button className="create-event__background-save" type="submit" form="form">zapisz</button>
+                                <Button className="create-event__background-close"variant="outlined" color="secondary"  size="small"onClick={handleCloseCreateEvent}>wyjdź</Button>
+                                
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    size="small"
+                                    className="create-event__background-save"
+                                    startIcon={<SaveIcon />} >
+                                    Zapisz
+                                </Button>
+
+                               
                             </div>
                         </div> 
                 </div>

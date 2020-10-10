@@ -1,7 +1,7 @@
-import React,{ useRef } from 'react';
+import React from 'react';
 import Auth from './Auth';
 
-const Register = () =>  <Auth login={false} />
+const Register = () => <div className="wrapper"> <Auth login={false} /> </div>
 
 
 export default Register;
