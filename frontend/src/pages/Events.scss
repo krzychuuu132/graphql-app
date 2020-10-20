@@ -1,0 +1,65 @@
+@import "../styles/mixins.module.scss";
+
+.events{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0 25px;
+}
+
+
+.create-event{
+
+    &__background{
+        @include eventDetails();
+
+        &-title{
+            background-color: rgb(95, 95, 143);
+            padding: 10px 10px;
+            color: white;
+        }
+
+        &-btns > button{
+            margin:  15px;
+        }
+    }
+
+    &__add{
+        @include elementDetailsBlock();
+    }
+
+    &__title{
+        text-align: center;
+        margin: 30px 0;
+        font-size: 1.6rem;
+       
+    }
+
+    &__btn{
+        display: block;
+        margin:  auto;
+        height: 60px;
+
+      &-icon{
+          margin: 0 10px;
+      }
+    }
+}
+
+.event-form{
+    padding:  0 8px;
+
+    &__element{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 15px 0;
+
+        &-label{
+            font-size: 1rem;
+            margin: 0 15px;
+        }
+    }
+}

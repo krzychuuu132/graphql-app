@@ -1,0 +1,6 @@
+@import "../../styles/mixins.module.scss";
+
+.preloader{
+    @include eventDetails();
+    z-index: 999;
+}

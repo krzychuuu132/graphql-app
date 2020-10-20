@@ -1,0 +1,123 @@
+@import "../../styles/mixins.module.scss";
+
+.event{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px;
+    border: 1px solid blue;
+    width: 100%;
+    max-width: 950px;
+    min-width: 300px;
+    margin: 20px 0;
+
+    @media(min-width: 960px){
+        justify-content: space-between;
+        flex-direction: row;
+    }
+
+    &__title{
+        text-transform: capitalize;
+        font-size: 1.6rem;
+        padding: 10px;
+        text-align: center;
+        position: relative;
+
+        &::after{
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            border-radius: 5px;
+            background-color: rgb(83, 83, 143);
+
+            @media(min-width: 960px){
+              display: none;
+            }
+        }
+
+        @media(min-width: 960px){
+            padding: 0px;
+        }
+    }
+
+    &__text{
+        padding: 2px 5px; 
+        padding: 10px;
+
+        @media(min-width: 960px){
+            padding: 0px;
+        }
+    }
+
+    &__date{
+        padding: 2px 5px; 
+        padding: 10px;
+
+        @media(min-width: 960px){
+            padding: 0px;
+        }
+    }
+}
+
+.event-details{
+    @include eventDetails();
+    opacity: 0;
+    pointer-events: none;
+    color: white;
+    transition: all .4s;
+    
+    &--active{
+        opacity: 1;
+        pointer-events: initial;
+    }
+
+    &__wrapper{
+        @include elementDetailsBlock();
+
+    }
+
+    &__title{
+        letter-spacing: 1px;
+        text-transform: capitalize;
+        background-color: #5f5f8f;
+        color: white;
+        height: 50px;
+        line-height: 50px;
+        padding-left: 20px;
+    }
+
+    &__email{
+       margin: 10px 20px;
+    }
+
+    &__text{
+        margin: 0px 20px;
+    }
+
+    &__list{
+        margin-left: 40px;
+        padding: 10px 0;
+    }
+
+    &__buttons{
+       
+        
+        margin-top: 20px;
+
+        & > button{
+            height: 30px;
+            margin-left: 20px;
+        }
+    }
+}
+
+.create-event{
+
+   
+}
