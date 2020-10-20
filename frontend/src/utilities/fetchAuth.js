@@ -11,14 +11,18 @@ export const fetchAuth = (login,password,email) =>{
 
     requestBody = {
             query:`
-            query{
-                login(email:"${email}",password:"${password}"){
+            query Login($email : String!,$password: String!){
+                login(email: $email,password: $password){
                   userId
                   token
                   tokenDuration
                 }
               }
-            `
+            `,
+            variables:{
+              email,
+              password
+            }
         }
     }
 
@@ -26,17 +30,22 @@ export const fetchAuth = (login,password,email) =>{
 
      requestBody  = {
         query: `
-        mutation {
+        mutation Register($email : String!,$password: String!){
             createUser(userInput:{
-              email:"${email}"
-              password:"${password}"
+              email:$email
+              password: $password
             }){
               _id
               email
               password
             }
           }
-        `
+        `,
+        variables:{
+          email,
+          password
+        }
+    
     }
     }
     

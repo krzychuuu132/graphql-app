@@ -15,6 +15,8 @@ import AddEventIcon from '@material-ui/icons/AddBox';
 import { Button,TextField,TextareaAutosize } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 
+import { fetchEvents,createEvent } from '../utilities/eventOperations';
+
 const Events = () => {
 
     const [events,setEvents]  = useState([]);
@@ -35,67 +37,26 @@ const Events = () => {
         gsap.set(createEventRef.current,{alpha:0,pointerEvents:'none',scale:.5});
     },[])
 
-    useEffect( () => {
+    useEffect(  () => {
 
-   const fetchEvents  = async () =>{
+ 
+        const fetchData  = async () =>{
 
-    const requestBody = {
+            Preloader_Context.toogleLoading(true);
 
-        query: `
-        query{
-            events{
-               _id
-              title
-              description
-              price
-              date
-              creator{
-                _id
-                email
-                createdEvents{
-                  _id
-                  title
-                }
-              
-              }
-            }
-            }
-        `
-    
-        
-    }
+            const data  = await fetchEvents();
 
-    const jsonData  = JSON.stringify(requestBody);
-
-   try{
-
-    Preloader_Context.toogleLoading(true);
-    const response = await  fetch('http://localhost:3000/graphql',{
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json',
+            if(data !== null) {
+                
+                setEvents(data.events);
             
-        },
-        body:jsonData
-     })
-
-     const { data } = await response.json();
-    
-     setEvents(data.events);
-     Preloader_Context.toogleLoading(false);
-
-   } catch(err){
-    throw Error(err)
-   }
-    
-    
-
-     
-
-   }
-
-   fetchEvents();
-
+               Preloader_Context.toogleLoading(false);
+            
+            }
+            else Preloader_Context.toogleLoading(false);
+        }
+   
+      fetchData();
    
 
 },[])
@@ -115,66 +76,24 @@ const Events = () => {
 
 }
 
-const onSubmit = () =>{
+const onSubmit = async () =>{
+   
 
 const { title, price ,date, text }= getValues();
 
+Preloader_Context.toogleLoading(true);
 
-const createEvent = async () => {
+const data = await createEvent(title,parseFloat(price),date,text,Auth_Context.token);
+console.log(title, price ,date, text )
 
-    const requestBody = {
+if(data !== null) {
+    
+  
 
-        query: `
-        mutation{
-            createEvent(eventInput:{
-              title:"${title}"
-              description:"${text}"
-              price:${price}
-              date:"${date}"
-              
-            }){
-                _id
-                title
-                description
-                price
-                date
-                creator{
-                    _id
-                    email
-                }
-            }
-          }
-        `
-    
-        
-    }
-    
-    
-    const token = Auth_Context.token;
-    
-    const jsonData  = JSON.stringify(requestBody);
+   Preloader_Context.toogleLoading(false);
 
-try{
-
-    const response = await fetch('http://localhost:3000/graphql',{
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json',
-            'Authorization':`Bearer ${token}`
-        },
-        body:jsonData
-     });
-    
-    const data = response.json();
-    
-
-} catch (err){
-    throw Error(err);
 }
-}
-createEvent();
-
-
+else Preloader_Context.toogleLoading(false);
 
 }
 
@@ -196,19 +115,19 @@ createEvent();
                             <form className="event-form" onSubmit={handleSubmit(onSubmit)} id="form">
                                 <div className="event-form__element">
                                     <label htmlFor="title" className="event-form__element-label">Title</label>
-                                    <TextField type="text" alt="event-title" id="title" name="title" ref={register}/>
+                                    <TextField type="text" alt="event-title" id="title" name="title" inputRef={register}/>
                                 </div>
                                 <div className="event-form__element">
                                     <label htmlFor="price" className="event-form__element-label">Price</label>
-                                    <TextField type="number" alt="event-price" id="price" name="price" ref={register}/>
+                                    <TextField type="" alt="event-price" id="price" name="price" inputRef={register}/>
                                 </div>
                                 <div className="event-form__element">
                                     <label htmlFor="date" className="event-form__element-label">Date</label>
-                                    <TextField type="date" alt="event-date" id="date" ref={register} name="date"/>
+                                    <TextField type="date" alt="event-date" id="date" inputRef={register} name="date"/>
                                 </div>
                                 <div className="event-form__element">
                                     <label htmlFor="description" className="event-form__element-label">Description</label>
-                                    <TextareaAutosize  type="text" alt="event-decription" id="description" rows="4" ref={register} name="text"></TextareaAutosize >
+                                    <TextareaAutosize   alt="event-decription" id="description" rows="4" ref={register} name="text"></TextareaAutosize >
                                 </div>
                             </form>
                            
@@ -219,6 +138,8 @@ createEvent();
                                 
                                 <Button
                                     variant="contained"
+                                    type="submit"
+                                    form="form"
                                     color="primary"
                                     size="small"
                                     className="create-event__background-save"

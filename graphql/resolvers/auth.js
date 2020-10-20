@@ -12,7 +12,7 @@ const userResolver = {
         const existingUser = await User.findOne({email: arg.email});
 
              if(existingUser) {
-                 throw new Error('User already exists');
+                 throw new Error('Istnieje już taki użytkownik');
              }
             
              const hashedPassword =  await bcrypt.hash(arg.password, 12);
@@ -39,7 +39,7 @@ const userResolver = {
         const user = await User.findOne({email: email})
 
         if(!user){
-            throw new Error('user doesnt exist')
+            throw new Error('użytkownik nie istnieje')
         }
 
         const isEqual = await bcrypt.compare(password,user.password);
@@ -47,7 +47,7 @@ const userResolver = {
        
 
         if(!isEqual){
-            throw new Error('Password is incorrect');
+            throw new Error('Nieprawidłowe hasło');
         }
 
         const token = jwt.sign({userId: user.id,email: user.email},'secretkey',{

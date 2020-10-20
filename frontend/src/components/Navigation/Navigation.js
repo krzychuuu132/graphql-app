@@ -15,35 +15,41 @@ const Navigation = () => {
     const handleHamburgerClick  = () => {
         setActiveHamburger(!activeHamburger);
     }
+    console.log(dataContext)
     
     return (
 
         <header className="header">
 
+        { 
+
+        dataContext.token && 
+        <>
             <div className="header__logo"><BookingLogo/></div>
 
             <nav className="nav">
 
-            <button className={activeHamburger?"nav__hamburger nav__hamburger--active":"nav__hamburger"} onClick={handleHamburgerClick}>
+                <button className={activeHamburger?"nav__hamburger nav__hamburger--active":"nav__hamburger"} onClick={handleHamburgerClick}>
                         <span className="nav__hamburger-line"></span>
-            </button>
+                </button>
 
-            <ul className={activeHamburger?"nav__list nav__list--active":"nav__list"} ref={listRef}>
-            {
-                dataContext.token && <>
-                <li className="nav__item"><NavLink className="nav__link" activeClassName="nav__link--active" to="/events">Events</NavLink></li>
-                <li className="nav__item"><NavLink className="nav__link" activeClassName="nav__link--active" to="/bookings">Bookings</NavLink></li>
-                <li className="nav__item"><NavLink className="nav__link" activeClassName="nav__link--active" to="/login" onClick={dataContext.logout}>Wyloguj się</NavLink></li>
-                </>
-            }
-                    
-
-            </ul>
+                <ul className={activeHamburger?"nav__list nav__list--active":"nav__list"} ref={listRef}>
+            
+               
+                    <li className="nav__item"><NavLink className="nav__link" activeClassName="nav__link--active" to="/events">Events</NavLink></li>
+                    <li className="nav__item"><NavLink className="nav__link" activeClassName="nav__link--active" to="/bookings">Bookings</NavLink></li>
+                    <li className="nav__item"><NavLink className="nav__link" activeClassName="nav__link--active" to="/login" onClick={dataContext.logout}>Wyloguj się</NavLink></li>
+                
+                </ul>
 
             </nav>
 
-        </header>
+            </>
+            
+            }
 
+            </header>
+        
       );
 
 }
