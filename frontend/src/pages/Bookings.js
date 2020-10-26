@@ -1,5 +1,6 @@
 import React,{ useEffect , useState , useContext } from 'react';
-import Booking from '../components/Booking/Booking';
+import Booking from '../components/bookings/Booking/Booking';
+import Chart from '../components/bookings/Chart/Chart';
 
 import Preloader from "../components/Preloader/Preloader";
 
@@ -13,6 +14,7 @@ import "./Bookings.scss";
 const Bookings = () => {
 
     const [bookings,setBookings] = useState([]);
+    const [bookingsPath,setBookingsPath] = useState('bookings');
 
     const Auth_Context = useContext(AuthContext);
     const Preloader_Context = useContext(PreloaderContext);
@@ -42,15 +44,28 @@ const Bookings = () => {
     },[] )
 
     return ( 
+        <>
+        <div className="bookings__choice">
+            <button onClick={()=>setBookingsPath('bookings')} className={bookingsPath === "bookings"?"bookings__choice-btn bookings__choice-btn--active":"bookings__choice-btn"}>bookings</button>
+            <button onClick={()=>setBookingsPath('charts')} className={bookingsPath === "bookings"?"bookings__choice-btn":"bookings__choice-btn bookings__choice-btn--active"}>charts</button>
+        </div>
+        {
+            bookingsPath === 'bookings' ? 
+            
+            <div className="bookings">
 
-        <div className="bookings">
             {
                 bookings.map(booking=><Booking booking={booking} id={booking._id} token={Auth_Context.token} Preloader_Context={Preloader_Context}/>)
             }
 
-            <Preloader />
-        </div>
+           </div> 
+           
+        :  <Chart bookings={bookings}/>
 
+        }
+
+        <Preloader />
+         </>   
      );
      
 }

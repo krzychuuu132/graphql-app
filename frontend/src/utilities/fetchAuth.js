@@ -59,15 +59,20 @@ return fetch('http://localhost:3000/graphql',{
     body:jsonData
 })
 .then(res=>{
+  
     if(res.status !== 200 && res.status !== 201 && res.status !== 500){
-        throw new Error('Failed!')
+        return res.json()
     }
-    console.log(jsonData)
+    
     return res.json();
 })
-.then(result=>result)
+.then(result=>{
+  console.log(result)
+  return result;
+})
 .catch(err=>{
-    throw err;
+ 
+   return err;
 })
 
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import gsap from 'gsap';
 
-import { handleDeleteBooking as deleteBooking } from "../../utilities/bookingOperations";
+import { handleDeleteBooking as deleteBooking } from "../../../utilities/bookingOperations";
 
 import "./Booking.scss";
 

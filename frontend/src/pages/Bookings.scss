@@ -2,6 +2,40 @@
 .bookings{
     padding: 0 15px;
 
+    &__choice{
+        display: flex;
+        justify-content: center;
+        
+
+        &-btn{
+            margin-right: 25px;
+            background-color: transparent;
+            padding: 8px 20px;
+            border: none;
+            border-bottom: 2px solid #3f51b5;
+            transition: all .3s;
+            will-change: transform,border-color;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            outline: none;
+            text-transform: capitalize;
+            letter-spacing: .3px;
+
+            &--active{
+                border-color: black;
+            }
+
+            &:hover{
+                transform: scale(1.05);
+                border-color: darken($color: #3f51b5, $amount: 15%);
+            }
+           
+            &:nth-last-child(1){
+                margin-right: 0;
+            }
+        }
+    }
+
     &__booking{
         width: 100%;
         min-width: 300px;

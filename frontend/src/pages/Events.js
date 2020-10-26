@@ -25,7 +25,7 @@ const Events = () => {
     const Auth_Context = useContext(AuthContext);
     const Preloader_Context = useContext(PreloaderContext);
 
-    const { register, handleSubmit,getValues } = useForm();
+    const { register, handleSubmit,getValues,errors } = useForm();
 
     const createEventWrapperRef = useRef(null);
     const createEventRef = useRef(null);
@@ -84,7 +84,7 @@ const { title, price ,date, text }= getValues();
 Preloader_Context.toogleLoading(true);
 
 const data = await createEvent(title,parseFloat(price),date,text,Auth_Context.token);
-console.log(title, price ,date, text )
+
 
 if(data !== null) {
     
@@ -115,19 +115,19 @@ else Preloader_Context.toogleLoading(false);
                             <form className="event-form" onSubmit={handleSubmit(onSubmit)} id="form">
                                 <div className="event-form__element">
                                     <label htmlFor="title" className="event-form__element-label">Title</label>
-                                    <TextField type="text" alt="event-title" id="title" name="title" inputRef={register}/>
+                                    <TextField type="text" alt="event-title" id="title" name="title" inputRef={register} required/>
                                 </div>
                                 <div className="event-form__element">
                                     <label htmlFor="price" className="event-form__element-label">Price</label>
-                                    <TextField type="" alt="event-price" id="price" name="price" inputRef={register}/>
+                                    <TextField type="" alt="event-price" id="price" name="price" inputRef={register} required/>
                                 </div>
                                 <div className="event-form__element">
                                     <label htmlFor="date" className="event-form__element-label">Date</label>
-                                    <TextField type="date" alt="event-date" id="date" inputRef={register} name="date"/>
+                                    <TextField type="date" alt="event-date" id="date" inputRef={register} name="date" required/>
                                 </div>
                                 <div className="event-form__element">
                                     <label htmlFor="description" className="event-form__element-label">Description</label>
-                                    <TextareaAutosize   alt="event-decription" id="description" rows="4" ref={register} name="text"></TextareaAutosize >
+                                    <TextareaAutosize   alt="event-decription" id="description" rows="4" ref={register} name="text" required></TextareaAutosize>
                                 </div>
                             </form>
                            

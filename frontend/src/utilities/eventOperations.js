@@ -54,6 +54,7 @@ export const getBookings = async (token) => {
               _id
               event{
                  title
+                 price
               }
               user{
                 email

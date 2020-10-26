@@ -5,6 +5,7 @@ import { Input,Button,Link as MaterialLink } from '@material-ui/core';
 
 import AuthContext from '../context/auth_context';
 import PreloaderContext from '../context/preloader_context';
+import AuthError from '../context/auth_error';
 
 import Preloader from '../components/Preloader/Preloader';
 
@@ -13,6 +14,7 @@ import { ReactComponent as BookLogo } from '../images/booking.svg';
 
 import "./Auth.scss";
 import { Link } from 'react-router-dom';
+import ErrorValidation from '../components/ErrorValidation/ErrorValidation';
 
 const Auth = ({login}) => {
 
@@ -21,6 +23,7 @@ const Auth = ({login}) => {
 
     const dataContext = useContext(AuthContext);
     const Preloader_Context = useContext(PreloaderContext);
+    const Auth_error = useContext(AuthError);
 
     const handleSubmit  =  async e  =>{
 
@@ -29,19 +32,32 @@ const Auth = ({login}) => {
 
         const password  = passwordRef.current.value;
         const email  = emailRef.current.value;
-        console.log(email)
        
-     const { data } =  await fetchAuth(login,password,email);
+       
+     const { data,errors } =  await fetchAuth(login,password,email);
+     
      if(login){
 
      if(data !== null && data.login.token){
          const { token,userId,tokenDuration } = data.login;
 
+         Auth_error.toogleError(false);
          dataContext.login(token,userId,tokenDuration);
         
     }
+
+    Auth_error.toogleError(false);
     Preloader_Context.toogleLoading(false);
 
+    } else{
+        Preloader_Context.toogleLoading(false);
+    }
+
+    if(errors){
+        Auth_error.setErrorText(errors[0].message); 
+        
+        Auth_error.toogleError(true);
+        console.log(Auth_error.errorType)
     }
 
 
@@ -74,6 +90,8 @@ const Auth = ({login}) => {
 
                     </div>
 
+                    <ErrorValidation />
+
                     <div className="form__buttons">
 
                                 
@@ -83,7 +101,7 @@ const Auth = ({login}) => {
 
                     </div>
 
-                        <Link component={MaterialLink} to={login?"/register":"/login"}>{login? "Nie masz konta? Zarejestruj się !":"Posiadasz już konto? Zaloguj się !"}</Link>
+                        <Link  to={login?"/register":"/login"}>{login? "Nie masz konta? Zarejestruj się !":"Posiadasz już konto? Zaloguj się !"}</Link>
 
                     <Preloader />
         </form>

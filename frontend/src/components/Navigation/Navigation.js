@@ -15,7 +15,7 @@ const Navigation = () => {
     const handleHamburgerClick  = () => {
         setActiveHamburger(!activeHamburger);
     }
-    console.log(dataContext)
+   
     
     return (
 
