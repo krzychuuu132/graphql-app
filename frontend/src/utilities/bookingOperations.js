@@ -23,7 +23,7 @@ export const handleDeleteBooking  = async (id,token) => {
     const jsonData  = JSON.stringify(requestBody);
 
     try{
-         const bookings = await fetch('http://localhost:3000/graphql',{
+         const bookings = await fetch('https://graphql-express-app123.herokuapp.com/graphql',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json',

@@ -51,7 +51,7 @@ export const fetchAuth = (login,password,email) =>{
     
     const jsonData  = JSON.stringify(requestBody);
 
-return fetch('http://localhost:3000/graphql',{
+return fetch('https://graphql-express-app123.herokuapp.com/graphql',{
     method:'POST',
     headers:{
         'Content-Type':'application/json'

@@ -22,7 +22,7 @@ export const bookEvent =  (id,token) =>{
 
     const jsonData  = JSON.stringify(requestBody);
 
-    return fetch('http://localhost:3000/graphql',{
+    return fetch('https://graphql-express-app123.herokuapp.com/graphql',{
         method:'POST',
         headers:{
             'Content-Type':'application/json',
@@ -69,7 +69,7 @@ export const getBookings = async (token) => {
     const jsonData  = JSON.stringify(requestBody);
 
     try{
-         const bookings = await fetch('http://localhost:3000/graphql',{
+         const bookings = await fetch('https://graphql-express-app123.herokuapp.com/graphql',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json',
@@ -123,7 +123,7 @@ export const  fetchEvents  = async () =>{
    try{
 
     
-    const response = await  fetch('http://localhost:3000/graphql',{
+    const response = await  fetch('https://graphql-express-app123.herokuapp.com/graphql',{
         method:'POST',
         headers:{
             'Content-Type':'application/json',
@@ -190,7 +190,7 @@ export const createEvent = async (title,price,date,text,token) => {
 
 try{
 
-    const response = await fetch('http://localhost:3000/graphql',{
+    const response = await fetch('https://graphql-express-app123.herokuapp.com/graphql',{
         method:'POST',
         headers:{
             'Content-Type':'application/json',
