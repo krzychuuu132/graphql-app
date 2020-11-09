@@ -9,3 +9,4 @@ MY GRAPHQL APP
 -graphQl,
 -GSAP,
 -Sass,
+-Material UI

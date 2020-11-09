@@ -47,6 +47,7 @@ const Events = () => {
             const data  = await fetchEvents();
 
             if(data !== null) {
+                console.log(data)
                 
                 setEvents(data.events);
             
@@ -158,7 +159,7 @@ else Preloader_Context.toogleLoading(false);
         <div className="events">
 
             {
-               events !== [] ? events.map(event=><Event event={event} key={event._id} userId={Auth_Context.userId} token={Auth_Context.token}/>) : 'Niestety nie posiadasz żadnych eventów'
+               events.length !== 0 ? events.map(event=><Event event={event} key={event._id} userId={Auth_Context.userId} token={Auth_Context.token}/>) : 'Niestety nie posiadasz żadnych eventów'
             }
 
         </div>

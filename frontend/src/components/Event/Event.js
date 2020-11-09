@@ -17,6 +17,7 @@ const Event = ({event,userId,token}) => {
     const Preloader_Context = useContext(PreloaderContext);
 
     const { title,description,creator,price,date }  = event;
+    console.log(creator)
 
     const newDate = new Date(date);
 
@@ -25,7 +26,7 @@ const Event = ({event,userId,token}) => {
     const handleBookEvent = async() =>{
         Preloader_Context.toogleLoading(true);
 
-        const  data  = await await bookEvent(event._id,token);
+        const  data  =  await bookEvent(event._id,token);
 
         if(data !== null) {
             
@@ -59,7 +60,7 @@ const Event = ({event,userId,token}) => {
 
                 <h4 className="event-details__title">szczegóły</h4>
                 <h6 className="event-details__email">Email twórcy : {creator.email}</h6>
-                <p className="event-details__text">Stworzone eventy ({creator.createdEvents.length}):</p>
+                <p className="event-details__text">Stworzone eventy ({creator.createdEvents.length && <p>siemaa</p>}):</p>
                 <ol className="event-details__list">
                             {creator.createdEvents.map(createdEvent=><li key={createdEvent._id} className="event-details__item">{createdEvent.title}</li>)}
                 </ol>
