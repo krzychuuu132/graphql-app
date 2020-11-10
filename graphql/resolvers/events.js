@@ -9,6 +9,7 @@ const { getEventsData,dateToString } = require('../utililties/functions');
 
 const eventsResolver = {
     events:async (args,req)=>{
+        
       
        try{
                 const events = await Event.find();

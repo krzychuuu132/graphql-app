@@ -25,9 +25,13 @@ const Auth = ({login}) => {
     const Preloader_Context = useContext(PreloaderContext);
     const Auth_error = useContext(AuthError);
 
+ 
+
     const handleSubmit  =  async e  =>{
 
         e.preventDefault();
+
+        Auth_error.toogleError(false);
         Preloader_Context.toogleLoading(true);
 
         const password  = passwordRef.current.value;
@@ -36,28 +40,31 @@ const Auth = ({login}) => {
        
      const { data,errors } =  await fetchAuth(login,password,email);
      
+       
+
      if(login){
 
-     if(data !== null && data.login.token){
-         const { token,userId,tokenDuration } = data.login;
+                if(data !== null && data.login.token){
+                    const { token,userId,tokenDuration } = data.login;
 
-         Auth_error.toogleError(false);
-         dataContext.login(token,userId,tokenDuration);
+                    Auth_error.toogleError(false);
+                    dataContext.login(token,userId,tokenDuration);
         
-    }
+                }
 
-    Auth_error.toogleError(false);
-    Preloader_Context.toogleLoading(false);
+                Auth_error.toogleError(false);
+            
 
     } else{
-        Preloader_Context.toogleLoading(false);
+        Auth_error.toogleError(false);
+      
     }
 
     if(errors){
         Auth_error.setErrorText(errors[0].message); 
-        
+        Preloader_Context.toogleLoading(false);
         Auth_error.toogleError(true);
-        console.log(Auth_error.errorType)
+        
     }
 
 
@@ -101,7 +108,7 @@ const Auth = ({login}) => {
 
                     </div>
 
-                        <Link  to={login?"/register":"/login"}>{login? "Nie masz konta? Zarejestruj się !":"Posiadasz już konto? Zaloguj się !"}</Link>
+                        <Link  to={login?"/register":"/login"} className="form__link">{login? "Nie masz konta? Zarejestruj się !":"Posiadasz już konto? Zaloguj się !"}</Link>
 
                     <Preloader />
         </form>

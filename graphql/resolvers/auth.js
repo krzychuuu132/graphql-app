@@ -1,6 +1,7 @@
 const User = require('../../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');  
+const { validateUserData }  =require('../utililties/functions');
 
 const userResolver = {
 
@@ -11,9 +12,15 @@ const userResolver = {
             
         const existingUser = await User.findOne({email: arg.email});
 
+            console.log(arg)
+
              if(existingUser) {
                  throw new Error('Istnieje już taki użytkownik');
              }
+
+            
+             validateUserData(arg);
+            
             
              const hashedPassword =  await bcrypt.hash(arg.password, 12);
           
@@ -38,9 +45,13 @@ const userResolver = {
 
         const user = await User.findOne({email: email})
 
+        validateUserData(arg={email,password});
+
         if(!user){
-            throw new Error('użytkownik nie istnieje')
+            throw new Error('użytkownik nie istnieje !')
         }
+
+        
 
         const isEqual = await bcrypt.compare(password,user.password);
 

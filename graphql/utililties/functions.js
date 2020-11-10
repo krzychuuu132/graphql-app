@@ -4,11 +4,11 @@ const DataLoader = require('dataloader');
 
 const eventLoader = new DataLoader((event_id)=> events(event_id));
 
-const userLoader = new DataLoader((user_id)=> User.find({ _id: {$in: user_id} }));
+const userLoader = new DataLoader((user_id)=>  User.find({ _id: {$in: user_id} }));
 
 const events = async event_id =>{
     try{
-
+        
         const events = await Event.find({ _id : {$in:event_id}})
         
        return events.map(event=>getEventsData(event))
@@ -23,10 +23,11 @@ const events = async event_id =>{
     
 const user = async user_id =>{
     
-
+        
         try{
-            const user = await userLoader.load(user_id.toString());
             
+            const user = await userLoader.load(user_id.toString());
+           
            
             return {...user._doc,_id: user.id,createdEvents: () => eventLoader.loadMany(user._doc.createdEvents)};
 
@@ -48,7 +49,7 @@ const singleEvent = async event_id =>{
 }
 
 const getEventsData  = (event) =>{
-   
+  
     
     return{
     ...event._doc,
@@ -75,11 +76,23 @@ const getBookingData = (booking) =>{
 const dateToString = (date) => new Date(date)
 
 
+const validateUserData = ({email,password}) =>{
+
+
+
+     if(!email && !password) throw new Error('Podaj e-maila i hasło !');
+     
+     
+     else if(!email) throw new Error('Podaj e-maila !');
+     
+}
+
     module.exports = {
         events,
         user,
         singleEvent,
         getEventsData,
         dateToString,
-        getBookingData
+        getBookingData,
+        validateUserData
     }

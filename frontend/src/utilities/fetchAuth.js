@@ -51,7 +51,7 @@ export const fetchAuth = (login,password,email) =>{
     
     const jsonData  = JSON.stringify(requestBody);
 
-return fetch('https://graphql-express-app123.herokuapp.com/graphql',{
+return fetch('http://localhost:3000/graphql',{
     method:'POST',
     headers:{
         'Content-Type':'application/json'
@@ -67,7 +67,7 @@ return fetch('https://graphql-express-app123.herokuapp.com/graphql',{
     return res.json();
 })
 .then(result=>{
-  console.log(result)
+
   return result;
 })
 .catch(err=>{

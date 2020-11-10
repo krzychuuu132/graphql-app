@@ -123,7 +123,7 @@ export const  fetchEvents  = async () =>{
    try{
 
     
-    const response = await  fetch('https://graphql-express-app123.herokuapp.com/graphql',{
+    const response = await  fetch('http://localhost:3000/graphql',{
         method:'POST',
         headers:{
             'Content-Type':'application/json',
